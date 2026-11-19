@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+
+<html lang="es-MX"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/><meta content="#100d15" name="theme-color"/><meta content="Escucha ocho pistas originales e independientes y comparte tu música con la comunidad." name="description"/><meta content="dark" name="color-scheme"/><title>Música — NOCTURNA</title><link href="assets/favicon.svg" rel="icon" type="image/svg+xml"/><link href="styles.css" rel="stylesheet"/><link href="studio.css" rel="stylesheet"/><link href="pages.css" rel="stylesheet"/><script defer="" src="config.js"></script><script defer="" src="navigation.js"></script><script defer="" src="app.js"></script><script defer="" src="studio.js"></script><link href="revamp.css" rel="stylesheet"/><script defer="" src="creative.js"></script><script defer="" src="music-social.js"></script><script defer="" src="music-upload.js"></script></head><body class="page-musica"><a class="skip-link" href="#contenido">Saltar al contenido principal</a><div aria-hidden="true" class="top-glow"></div><header class="site-header">
+<div class="shell header-inner">
+<a aria-current="" aria-label="NOCTURNA, ir al inicio" class="brand" href="index.html">
+<span aria-hidden="true" class="brand-mark"><span class="brand-orbit"></span></span>
+<span class="brand-name">NOCTURNA<span class="brand-point">.</span></span>
+</a>
+<nav aria-label="Navegación principal" class="main-nav" id="mainNav"><a href="index.html">Inicio</a><a href="explorar.html">Galería</a><a aria-current="page" href="musica.html">Música</a><a href="fotografia.html">Fotografía</a><a href="laboratorio.html">Guitar Lab</a><a href="juegos.html">Juegos</a><a href="tienda.html">Tienda</a><a href="perfil.html">Mi perfil</a><a hidden="" href="perfil.html" id="myWorksLink">Mis obras</a><a hidden="" href="perfil.html" id="savedWorksLink">Guardadas</a></nav>
+<div class="header-actions">
+<button aria-controls="mainNav" aria-expanded="false" aria-label="Abrir menú" class="icon-button menu-button" id="menuBtn" type="button">☰</button>
+<button aria-label="Activar alto contraste" aria-pressed="false" class="icon-button" id="contrastBtn" title="Activar alto contraste" type="button">
+<svg aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" viewbox="0 0 24 24"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 3.5a8.5 8.5 0 0 1 0 17Z" fill="currentColor" stroke="none"></path></svg>
+</button>
+<button aria-label="Aumentar tamaño de letra" aria-pressed="false" class="icon-button typography-toggle" id="fontBtn" title="Aumentar tamaño de letra" type="button">Aa</button>
+<button class="button button-outline small" id="authBtn" type="button">Iniciar sesión</button>
+<div class="account-area" hidden="" id="accountArea">
+<span aria-hidden="true" class="account-avatar">N</span>
+<button class="account-name" id="accountBtn" title="Cerrar sesión" type="button">Salir <span aria-hidden="true">↗</span></button>
+</div>
+</div>
+</div>
+</header><main id="contenido"><section class="page-banner shell"><div class="page-banner-copy"><span class="section-kicker">SONIDO / EXPLORA</span><h1>La música se <em>vive aquí.</em></h1><p>Ocho pistas para descubrir, escuchar y guardar. Y un espacio donde también puedes compartir tus canciones.</p><a class="button button-primary" href="#escuchar">Escuchar ahora ♫</a></div><div class="page-banner-art"><img alt="" loading="eager" src="assets/sound-study.svg"/></div></section><section aria-labelledby="listenTitle" class="studio-section shell music-section" id="escuchar">
+<div class="section-heading"><div><span class="section-kicker">01 / RADIO NOCTURNA</span><h2 id="listenTitle">Escucha lo que <em>no se dice.</em></h2><p>Ocho pistas independientes y originales: escúchalas, márcalas con Me gusta y guarda tus favoritas.</p></div><div class="studio-stamp">ORIGINAL SOUNDS / 2026</div></div><div class="rev-section-head radio-subhead"><span class="section-kicker">NOCTURNA SESSIONS</span><h3>Grabaciones para descubrir.</h3><p>Pistas originales y obras independientes con la autoría y licencia identificadas.</p></div><div class="music-showcase">
+<div class="music-cover" id="musicCover"><span class="music-cover-label">NOCTURNA<br/><b>SESSIONS .001</b></span><span aria-hidden="true" class="record-disk"></span><span class="cover-bottom">SONIDOS PARA LA MADRUGADA</span></div>
+<div class="playlist-area"><div class="playlist-header"><span>ARCHIVO SONORO</span><span>08 PISTAS · ARCHIVO</span></div><div class="track-list" id="trackList"></div><div class="music-controls"><div class="current-track"><b id="currentTrack">Interludio violeta</b><small id="currentArtist">NOCTURNA Originals</small></div><button aria-label="Reproducir música" class="tool-button primary-play" id="songPlay" type="button">▶</button><label class="sr-only" for="trackSeek">Posición de reproducción</label><input id="trackSeek" max="100" min="0" step="1" type="range" value="0"/><span id="trackTime">0:00</span><label class="sr-only" for="trackVolume">Volumen de la música</label><input class="volume" id="trackVolume" max="1" min="0" step="0.05" type="range" value="0.7"/></div><audio id="demoAudio" preload="none"></audio><a class="extra-link track-source" hidden="" href="creditos.html" id="trackSource" rel="noopener noreferrer" target="_blank">Autor y licencia ↗</a></div>
+</div>
+<p class="micro-note">La reproducción comienza solo al seleccionarla. Algunas grabaciones requieren internet; sus autores y licencias aparecen al reproducirlas.</p>
+</section>
+<section aria-labelledby="uploadMusicTitle" class="shell rev-section music-community" id="subir-musica">
+  <div class="rev-section-head"><span class="section-kicker">02 / COMPARTE TU SONIDO</span>
+    <h2 id="uploadMusicTitle">Tu música también <em>tiene lugar aquí.</em></h2>
+    <p>Publica tus propias canciones para que otras personas puedan escucharlas. Necesitas una cuenta gratuita y conectar el proyecto con Supabase.</p>
+  </div>
+  <div class="music-upload-layout">
+    <div class="music-upload-intro">
+      <span class="section-kicker">ARCHIVO ABIERTO / ARTISTAS</span>
+      <h3>Sube una canción y deja que alguien la descubra.</h3>
+      <p>Comparte una pista original, una portada y lo que hay detrás de la canción. La publicación se mostrará aquí y en la Galería, con el nombre de tu cuenta.</p>
+      <div class="upload-guidelines"><strong>Antes de publicar</strong>
+        <p>Audio MP3, WAV, OGG o WebM (máx. 15 MB). Portada JPG, PNG o WebP (máx. 8 MB). Los archivos publicados serán públicos: comparte únicamente obras propias o que tengas permiso de distribuir.</p>
+      </div>
+      <p aria-live="polite" class="music-account-status" id="uploadMusicAccess">Comprobando la conexión para publicar…</p>
+      <button class="button button-outline" hidden id="uploadMusicLogin" type="button">Iniciar sesión / crear cuenta</button>
+    </div>
+    <form class="music-upload-form" id="musicUploadForm" enctype="multipart/form-data">
+      <div class="form-field"><label for="uploadTrackTitle">Nombre de la canción *</label>
+        <input id="uploadTrackTitle" type="text" minlength="3" maxlength="80" placeholder="El título de tu canción" required></div>
+      <div class="form-field"><label for="uploadTrackDescription">Descripción o historia *</label>
+        <textarea id="uploadTrackDescription" minlength="10" maxlength="1000" rows="3" placeholder="Cuéntanos algo de esta canción…" required></textarea></div>
+      <div class="form-field"><label for="uploadAudio">Archivo de música *</label>
+        <input id="uploadAudio" type="file" accept=".mp3,.wav,.ogg,.webm,audio/mpeg,audio/mp3,audio/wav,audio/x-wav,audio/ogg,audio/webm" required>
+        <span class="field-hint">Archivo de audio, máximo 15 MB.</span></div>
+      <div class="form-field"><label for="uploadCover">Portada de la canción *</label>
+        <input id="uploadCover" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" required>
+        <span class="field-hint">Imagen JPG, PNG o WebP, máximo 8 MB.</span></div>
+      <div class="form-field"><label for="uploadCoverAlt">Describe la portada *</label>
+        <input id="uploadCoverAlt" type="text" minlength="10" maxlength="180" placeholder="Ejemplo: paisaje nocturno de tonos violetas" required>
+        <span class="field-hint">Descripción accesible para personas que no pueden ver la imagen.</span></div>
+      <label class="check-field"><input id="uploadRights" type="checkbox" required><span>Confirmo que tengo los derechos para publicar la canción y la portada.</span></label>
+      <button class="button button-primary" id="uploadMusicSubmit" type="submit">Publicar mi música ♫</button>
+      <p class="inline-message" id="uploadMusicStatus" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+  <div aria-labelledby="communityMusicTitle" class="community-music" id="comunidad-musical">
+    <div class="rev-section-head"><span class="section-kicker">03 / NUEVAS VOCES</span>
+      <h2 id="communityMusicTitle">Música de la <em>comunidad.</em></h2>
+      <p>Escucha las canciones que otros artistas compartieron desde NOCTURNA.</p></div>
+    <p role="status" aria-live="polite" id="communityMusicStatus" class="micro-note">Conecta Supabase para cargar las publicaciones de la comunidad.</p>
+    <div class="community-music-grid" id="communityMusicGrid"></div>
+  </div>
+</section></main><footer class="site-footer">
+<div class="shell footer-inner"><a aria-label="NOCTURNA, inicio" class="footer-logo" href="index.html">NOCTURNA<span>.</span></a><p>Fotografía y música hechas para compartir.</p><div class="footer-right"><a href="explorar.html">Galería ↗</a><a href="fotografia.html">Estudio fotográfico ↗</a><a href="perfil.html">Mi perfil ↗</a><a href="creditos.html">Créditos y derechos ↗</a><span>NOCTURNA · 2026</span></div></div>
+</footer><dialog aria-labelledby="authTitle" class="dialog auth-dialog" id="authDialog">
+<div class="dialog-top">
+<span aria-hidden="true" class="dialog-logo">✳</span>
+<button aria-label="Cerrar ventana de acceso" class="dialog-x" data-close="authDialog" type="button">×</button>
+</div>
+<div class="dialog-body">
+<span class="section-kicker">TU ESTUDIO CREATIVO</span>
+<h2 id="authTitle">Tu espacio en <em>NOCTURNA.</em></h2>
+<p class="dialog-intro">Crea tu perfil, guarda obras y comparte fotografías o música propia.</p>
+<div aria-label="Tipo de acceso" class="auth-tabs" role="group">
+<button aria-pressed="true" class="auth-tab active" id="tabLogin" type="button">Iniciar sesión</button>
+<button aria-pressed="false" class="auth-tab" id="tabSignup" type="button">Crear cuenta</button>
+</div>
+<form class="form-stack" id="loginForm">
+<div class="form-field"><label for="loginEmail">Correo electrónico</label><input autocomplete="email" id="loginEmail" maxlength="254" placeholder="tu@correo.com" required="" type="email"/></div>
+<div class="form-field"><label for="loginPassword">Contraseña</label><input autocomplete="current-password" id="loginPassword" placeholder="Tu contraseña" required="" type="password"/></div>
+<button class="button button-primary full" id="loginSubmit" type="submit">Entrar a mi estudio <span aria-hidden="true">↗</span></button>
+<button class="text-button" id="forgotBtn" type="button">¿Olvidaste tu contraseña?</button>
+</form>
+<form class="form-stack" hidden="" id="signupForm">
+<div class="form-field"><label for="signupName">Nombre artístico o alias</label><input autocomplete="nickname" id="signupName" maxlength="32" minlength="2" placeholder="¿Cómo te conocen?" required="" type="text"/></div>
+<div class="form-field"><label for="signupEmail">Correo electrónico</label><input autocomplete="email" id="signupEmail" maxlength="254" placeholder="tu@correo.com" required="" type="email"/></div>
+<div class="form-field"><label for="signupPassword">Contraseña <span class="hint-inline">(mínimo 8 caracteres)</span></label><input autocomplete="new-password" id="signupPassword" maxlength="72" minlength="8" placeholder="Crea una contraseña" required="" type="password"/></div>
+<button class="button button-primary full" id="signupSubmit" type="submit">Crear mi cuenta <span aria-hidden="true">↗</span></button>
+<p class="form-note">Es posible que tengas que confirmar tu correo para activar la cuenta.</p>
+</form>
+<form class="form-stack" hidden="" id="resetForm">
+<p class="form-note">Te enviaremos un enlace para crear una nueva contraseña.</p>
+<div class="form-field"><label for="resetEmail">Correo de tu cuenta</label><input autocomplete="email" id="resetEmail" required="" type="email"/></div>
+<button class="button button-primary full" id="resetSubmit" type="submit">Enviar enlace de recuperación</button>
+<button class="text-button" id="backLoginBtn" type="button">Volver a iniciar sesión</button>
+</form>
+<form class="form-stack" hidden="" id="newPasswordForm">
+<p class="form-note">Escribe una nueva contraseña segura.</p>
+<div class="form-field"><label for="newPassword">Nueva contraseña</label><input autocomplete="new-password" id="newPassword" maxlength="72" minlength="8" required="" type="password"/></div>
+<button class="button button-primary full" id="newPasswordSubmit" type="submit">Actualizar contraseña</button>
+</form>
+<p aria-live="polite" class="inline-message" id="authMessage" role="status"></p>
+</div>
+</dialog><dialog aria-labelledby="publishTitle" class="dialog publish-dialog" id="publishDialog">
+<div class="dialog-top"><span class="section-kicker">UNA NUEVA HISTORIA</span><button aria-label="Cerrar formulario de publicación" class="dialog-x" data-close="publishDialog" type="button">×</button></div>
+<div class="dialog-body">
+<h2 id="publishTitle">Comparte <em>tu obra.</em></h2>
+<p class="dialog-intro">Elige la disciplina y publica contenido propio o autorizado.</p>
+<form class="form-stack" id="publishForm">
+<div class="form-field"><label for="artTitle">Título de la obra <span aria-hidden="true">*</span></label><input id="artTitle" maxlength="80" minlength="3" placeholder="El nombre de tu obra" required="" type="text"/></div>
+<div class="form-field"><label for="artCategory">Disciplina <span aria-hidden="true">*</span></label><select id="artCategory" required=""><option value="">Elige una categoría</option><option value="fotografia">Fotografía</option><option value="guitarra">Guitarras</option><option value="musica">Música</option></select></div>
+<div class="form-field"><label for="artDescription">La historia detrás de la obra <span aria-hidden="true">*</span></label><textarea id="artDescription" maxlength="1000" minlength="10" placeholder="¿Qué quieres transmitir? ¿Qué te inspiró?" required="" rows="4"></textarea><span class="field-hint">Entre 10 y 1000 caracteres.</span></div>
+<div class="form-field"><label for="artImage">Fotografía o portada <span aria-hidden="true">*</span></label><input accept="image/jpeg,image/png,image/webp" aria-describedby="imageHelp" id="artImage" required="" type="file"/><span class="field-hint" id="imageHelp">JPG, PNG o WebP. Máximo 8 MB. No se permiten SVG.</span></div>
+<div class="image-preview" hidden="" id="imagePreviewWrap"><img alt="Vista previa de la imagen que vas a publicar" id="imagePreview" src="assets/photo-study.svg"/></div>
+<div class="form-field"><label for="artAlt">Descripción accesible de la imagen <span aria-hidden="true">*</span></label><input aria-describedby="altHelp" id="artAlt" maxlength="180" minlength="10" placeholder="Ejemplo: Guitarra negra iluminada de violeta" required="" type="text"/><span class="field-hint" id="altHelp">Describe lo que aparece en la imagen para personas que usan lectores de pantalla.</span></div>
+<div class="form-field"><label for="artAudio">Archivo de audio <span class="hint-inline">(opcional para música o guitarras)</span></label><input accept="audio/mpeg,audio/mp3,audio/wav,audio/x-wav,audio/ogg,audio/webm" aria-describedby="audioHelp" id="artAudio" type="file"/><span class="field-hint" id="audioHelp">MP3, WAV, OGG o WebM. Máximo 15 MB. Comparte solo audio que tengas derecho a publicar.</span></div>
+<label class="check-field"><input id="originalCheck" required="" type="checkbox"/><span>Confirmo que tengo permiso para compartir esta imagen y cualquier audio adjunto.</span></label>
+<button class="button button-primary full" id="publishSubmit" type="submit">Publicar en la galería <span aria-hidden="true">↗</span></button>
+<p aria-live="polite" class="inline-message" id="publishMessage" role="status"></p>
+</form>
+</div>
+</dialog><div aria-atomic="true" aria-live="polite" class="toast" hidden="" id="toast" role="status"></div><div aria-atomic="true" aria-live="polite" class="sr-only" id="srAnnouncements" role="status"></div></body></html>

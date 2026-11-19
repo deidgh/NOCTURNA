@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1080">
+<defs><linearGradient id="sky" x1="0" y1="0" x2=".2" y2="1"><stop stop-color="#0a1422"/><stop offset=".47" stop-color="#54415e"/><stop offset=".78" stop-color="#b5839a"/><stop offset="1" stop-color="#30283e"/></linearGradient><radialGradient id="sun"><stop stop-color="#fbe0d1"/><stop offset=".3" stop-color="#ddacc5"/><stop offset="1" stop-color="#f4b9dd" stop-opacity="0"/></radialGradient><linearGradient id="sea" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#725b7f"/><stop offset="1" stop-color="#141723"/></linearGradient><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".7" numOctaves="3" seed="4"/><feComponentTransfer><feFuncA type="linear" slope=".13"/></feComponentTransfer></filter></defs>
+<rect width="800" height="1080" fill="url(#sky)"/><circle cx="480" cy="485" r="260" fill="url(#sun)"/><circle cx="480" cy="496" r="78" fill="#f3ced6" opacity=".87"/>
+<path d="M0 583C92 546 134 548 229 574C318 596 379 546 465 559C584 575 654 548 800 592V1080H0Z" fill="#4b3b5a" opacity=".62"/>
+<path d="M0 675Q130 613 246 654T504 648T800 671V1080H0Z" fill="url(#sea)"/>
+<g stroke="#c3a3c6" opacity=".3"><path d="M0 726Q170 710 400 729T800 723M0 750Q170 740 400 755T800 740M0 800Q260 789 440 809T800 798M0 870Q280 846 800 872M0 940Q300 909 800 951" fill="none" stroke-width="2"/></g>
+<path d="M0 774C100 720 192 774 270 792C355 811 427 840 492 844C612 849 672 760 800 749V1080H0Z" fill="#151725"/>
+<path d="M0 857C89 833 135 858 207 899C317 957 393 937 461 927C601 907 729 964 800 985V1080H0Z" fill="#0a0d17"/>
+<path d="M89 1080C101 925 87 783 55 688M92 979l-51-80M91 920l41-68M84 841l-41-52" fill="none" stroke="#090c17" stroke-width="10" stroke-linecap="round"/>
+<path d="M677 1080c-1-130 32-199 67-255m-47 145 65-50m-59-12-46-61" fill="none" stroke="#0b0d17" stroke-width="9"/>
+<rect x="45" y="48" width="710" height="984" fill="none" stroke="#eddde9" stroke-opacity=".45" stroke-width="2"/><text x="82" y="100" fill="#e6dce7" font-family="sans-serif" font-size="17" letter-spacing="9">STILL / 002</text><text x="80" y="985" fill="#d7c4d9" font-family="sans-serif" font-size="12" letter-spacing="5">LIGHT AFTER DARK</text>
+</svg>

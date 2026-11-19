@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1080" role="img" aria-label="Guitarra eléctrica ilustrada en tonos violetas">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#19111f"/><stop offset=".48" stop-color="#463052"/><stop offset="1" stop-color="#10101b"/></linearGradient><radialGradient id="halo"><stop stop-color="#ba8bef" stop-opacity=".7"/><stop offset="1" stop-color="#aa68d8" stop-opacity="0"/></radialGradient><linearGradient id="body" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#8c6ca5"/><stop offset=".4" stop-color="#332239"/><stop offset=".75" stop-color="#1c1622"/><stop offset="1" stop-color="#ad8ab8"/></linearGradient><linearGradient id="neck"><stop stop-color="#c6a6b8"/><stop offset=".48" stop-color="#463647"/><stop offset="1" stop-color="#ad8db2"/></linearGradient><filter id="glow"><feGaussianBlur stdDeviation="32"/></filter><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".64" numOctaves="3" seed="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".11"/></feComponentTransfer></filter></defs>
+<rect width="800" height="1080" fill="url(#bg)"/><circle cx="625" cy="345" r="370" fill="url(#halo)"/><path d="M0 920 800 510v570H0Z" fill="#0e0e19" opacity=".45"/>
+<g transform="rotate(29 370 530)">
+<ellipse cx="367" cy="800" rx="213" ry="226" fill="#0b0812" opacity=".9" filter="url(#glow)"/>
+<path d="M312 517 C245 476 215 504 230 588 C244 652 192 662 159 723 C107 822 162 1004 322 1030 C467 1056 581 949 561 820 C549 736 467 714 494 631 C511 577 465 541 421 558Z" fill="url(#body)" stroke="#c4a2d0" stroke-opacity=".65" stroke-width="6"/>
+<path d="M288 586 C210 646 207 733 223 834 C235 925 308 976 386 969 C474 959 521 868 491 775 C473 720 437 683 460 607" fill="none" stroke="#c6b1d6" opacity=".28" stroke-width="4"/>
+<path d="M326 -155 H413 L422 695 H317Z" fill="url(#neck)" stroke="#c7a6bd" stroke-width="6"/>
+<path d="M325 -100 H414V579H325Z" fill="#281c2d"/>
+<g stroke="#dec4de" stroke-width="5" opacity=".8"><path d="M326 22H414M326 104H414M326 180H414M326 251H414M326 317H414M326 378H414M326 436H414M326 491H414M326 542H414"/></g>
+<g fill="#d3b5dd" opacity=".55"><circle cx="368" cy="60" r="7"/><circle cx="368" cy="216" r="7"/><circle cx="368" cy="345" r="7"/><circle cx="368" cy="464" r="7"/></g>
+<path d="M319 693H426V890H319Z" fill="#241d29" opacity=".9"/><g fill="#d7badc" stroke="#786179" stroke-width="4"><rect x="309" y="644" width="126" height="31" rx="10"/><rect x="309" y="731" width="126" height="31" rx="10"/><rect x="309" y="829" width="126" height="36" rx="8"/></g>
+<g stroke="#ddd3df" stroke-width="1.8" opacity=".9"><path d="M335-100V916M345-100V916M355-100V916M368-100V916M381-100V916M396-100V916"/></g>
+<g fill="#bba2c1"><circle cx="484" cy="921" r="16"/><circle cx="465" cy="958" r="12"/></g>
+</g><path d="M55 65H145M55 65V155" fill="none" stroke="#d9b0f9" opacity=".8" stroke-width="2"/><text x="53" y="1004" fill="#ecdeee" font-family="sans-serif" font-size="16" letter-spacing="8">SIX STRINGS / 001</text>
+</svg>
