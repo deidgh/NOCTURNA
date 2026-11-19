@@ -5,6 +5,6 @@
   NUNCA pongas aquí service_role, secret keys ni contraseñas.
 */
 window.NOCTURNA_CONFIG = {
-  supabaseUrl: '',
-  supabaseAnonKey: ''
+  supabaseUrl: 'https://qopffkyqviwdsjfulxco.supabase.co',
+  supabaseAnonKey: 'sb_publishable_XQsVfuxSgTKUgZVR4JWjCw_CFx1T71a'
 };
