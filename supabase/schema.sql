@@ -252,3 +252,6 @@ grant insert on public.reportes to authenticated;
 -- Nota de producción: no incluye panel moderador ni sistema completo antiabuso.
 -- No utilizar service_role en config.js. Para producción, añade rate limits
 -- mediante funciones de servidor, captcha y revisión humana de reportes.
+
+-- Impedir ejecución directa de la función del trigger mediante la API.
+revoke execute on function public.crear_perfil_nuevo() from public, anon, authenticated;
