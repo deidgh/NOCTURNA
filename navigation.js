@@ -51,8 +51,8 @@
 'use strict';
 let latest=0;
 async function checkAdmin(){
- const b=window.NOCTURNA_BRIDGE?.snapshot?.();const nav=document.getElementById('mainNav');if(!nav||!b?.db)return;
- let link=nav.querySelector('#adminNavLink');if(!link){link=document.createElement('a');link.id='adminNavLink';link.href='admin.html';link.textContent='Administración';link.hidden=true;nav.append(link)}
+ const b=window.NOCTURNA_BRIDGE?.snapshot?.();const footer=document.querySelector('.site-footer .footer-right');if(!footer||!b?.db)return;
+ let link=footer.querySelector('#adminFooterLink');if(!link){link=document.createElement('a');link.id='adminFooterLink';link.href='admin.html';link.textContent='Administración';link.hidden=true;footer.append(link)}
  const token=++latest;link.hidden=true;
  if(!b.user?.email_confirmed_at)return;
  const {data,error}=await b.db.from('administradores').select('usuario_id').eq('usuario_id',b.user.id).maybeSingle();

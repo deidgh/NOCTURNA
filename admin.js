@@ -22,7 +22,7 @@ const {data:{user},error:authError}=await state.db.auth.getUser();if(authError&&
 state.user=user;if(!user||!user.email_confirmed_at){$('#adminGate').hidden=false;status.textContent='Inicia sesión con una cuenta verificada.';return}
 const {data:role,error:roleErr}=await state.db.from('administradores').select('usuario_id').eq('usuario_id',user.id).maybeSingle();if(roleErr)throw roleErr;
 if(!role){$('#adminGate').hidden=false;status.textContent='Tu cuenta no tiene permisos de administración.';return}
-$('#adminConsole').hidden=false;status.textContent='Sesión administrativa verificada.';await Promise.all([loadStats(),loadRecords(),loadNotice()]);
+$('#adminConsole').hidden=false;status.textContent='Sesión administrativa verificada.';await Promise.all([loadStats(),loadRecords(),loadNotice(),loadSectionEditors()]);
 }catch(e){error(e);$('#adminGate').hidden=false}}
 async function loadStats(){for(const [name,table] of Object.entries(columns)){const {count,error:e}=await state.db.from(table).select('*',{count:'exact',head:true});if(e){error(e);continue}$('#stat'+{works:'Works',profiles:'Profiles',comments:'Comments',reports:'Reports'}[name]).textContent=count??0}}
 function empty(){records.replaceChildren()}
@@ -59,6 +59,82 @@ async function manageAccount(item, action, question){
   if(!confirm(question))return;
   await mutate(state.db.rpc('admin_gestionar_cuenta',{p_id:item.id,p_accion:action}),'Cuenta actualizada.');
 }
+const sectionFields = [
+  ['titulo', 'Título principal', 100],
+  ['introduccion', 'Introducción', 450],
+  ['boton', 'Texto del botón principal', 70],
+  ['titulo_bloque', 'Título del bloque de contenido', 100],
+  ['descripcion_bloque', 'Descripción del bloque de contenido', 450]
+];
+const sections = new Map();
+const catalog = new Map((window.NOCTURNA_PRODUCTS || []).map(product => [product.id, product]));
+const prices = new Map();
+const sectionSelect = $('#adminSection');
+const productSelect = $('#adminProduct');
+const sectionInputs = new Map();
+
+function showSectionFields() {
+  const section = sections.get(sectionSelect.value);
+  for (const [key, input] of sectionInputs) input.value = section?.[key] || '';
+}
+function showPrice() {
+  const id = productSelect.value;
+  $('#adminPrice').value = prices.get(id) ?? catalog.get(id)?.price ?? '';
+}
+async function loadSectionEditors() {
+  const [copy, catalogPrices] = await Promise.all([
+    state.db.from('contenido_secciones').select('*'),
+    state.db.from('precios_catalogo').select('producto,precio')
+  ]);
+  if (copy.error) throw copy.error;
+  if (catalogPrices.error) throw catalogPrices.error;
+
+  for (const row of copy.data) sections.set(row.seccion, row);
+  for (const row of catalogPrices.data) prices.set(row.producto, row.precio);
+  for (const [key, label, limit] of sectionFields) {
+    const fieldLabel = el('label', '', label);
+    const input = el(limit > 100 ? 'textarea' : 'input');
+    input.maxLength = limit;
+    fieldLabel.append(input);
+    $('#adminSectionFields').append(fieldLabel);
+    sectionInputs.set(key, input);
+  }
+  for (const product of catalog.values()) {
+    const option = el('option', '', product.name);
+    option.value = product.id;
+    productSelect.append(option);
+  }
+  showSectionFields();
+  showPrice();
+}
+sectionSelect.addEventListener('change', showSectionFields);
+productSelect.addEventListener('change', showPrice);
+$('#adminSectionForm').addEventListener('submit', async event => {
+  event.preventDefault();
+  const section = sectionSelect.value;
+  const values = Object.fromEntries([...sectionInputs].map(([key, input]) => [key, input.value.trim()]));
+  const params = Object.fromEntries(Object.entries(values).map(([key, value]) => ['p_' + key, value]));
+  const { error: failure } = await state.db.rpc('admin_guardar_seccion', {p_seccion:section, ...params});
+  if (failure) { error(failure); return; }
+  sections.set(section, values);
+  status.textContent = 'Textos de la sección guardados.';
+});
+async function savePrice(price) {
+  const id = productSelect.value;
+  if (!catalog.has(id)) return;
+  const { error: failure } = await state.db.rpc('admin_guardar_precio', {p_producto:id,p_precio:price});
+  if (failure) { error(failure); return; }
+  if (price === null) prices.delete(id);
+  else prices.set(id, price);
+  showPrice();
+  status.textContent = price === null ? 'Precio original restaurado.' : 'Precio guardado.';
+}
+$('#adminPriceForm').addEventListener('submit', event => {
+  event.preventDefault();
+  savePrice($('#adminPrice').valueAsNumber);
+});
+$('#adminResetPrice').addEventListener('click', () => savePrice(null));
+
 async function loadNotice(){
   const {data,error:e}=await state.db.from('aviso_sitio').select('texto').single();
   if(e)throw e;

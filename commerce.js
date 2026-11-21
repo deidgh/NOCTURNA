@@ -31,4 +31,15 @@
  $('#cartClearNew')?.addEventListener('click',()=>{cart={};save();drawCart()});
  $('#cartExport')?.addEventListener('click',async()=>{const lines=products.filter(p=>cart[p.id]).map(p=>`${cart[p.id]} × ${p.name} — ${fmt(p.price*cart[p.id])}`);if(!lines.length){show('Primero añade productos.');return}const sum=products.reduce((s,p)=>s+(cart[p.id]||0)*p.price,0);try{await navigator.clipboard.writeText('NOCTURNA · Mi carrito\n'+lines.join('\n')+'\nTotal estimado: '+fmt(sum)+'\nPrecios de referencia, sin compra realizada.');show('Lista copiada.')}catch{show('No se pudo copiar. Prueba HTTPS o localhost.')}});
  drawProducts();drawCart();
+ window.addEventListener('nocturna:connected', async () => {
+   const { db } = window.NOCTURNA_BRIDGE.snapshot();
+   const { data, error } = await db.from('precios_catalogo').select('producto,precio');
+   if (error) return;
+   const prices = new Map(data.map(row => [row.producto, row.precio]));
+   for (const product of products) {
+     if (prices.has(product.id)) product.price = prices.get(product.id);
+   }
+   drawProducts();
+   drawCart();
+ }, { once: true });
 })();

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="es-MX"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#100d15"><title>Administración — NOCTURNA</title>
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="admin.css">
-<script defer src="config.js"></script><script defer src="navigation.js"></script><script defer src="admin.js"></script>
+<script defer src="config.js"></script><script defer src="navigation.js"></script><script defer src="catalog.js"></script><script defer src="admin.js"></script>
 </head><body><header class="admin-header"><a href="index.html" class="admin-brand">◉ NOCTURNA <small>ADMIN</small></a><div class="admin-actions"><a href="index.html">Volver al sitio</a><button id="adminLogout" type="button">Cerrar sesión</button></div></header>
 <main class="admin-layout"><div class="admin-lead"><p class="admin-kicker">NOCTURNA / CONTROL CENTRAL</p><h1>Panel de administración</h1><p>Gestiona la comunidad desde una interfaz visual. Los permisos se verifican en Supabase.</p></div>
 <div id="adminStatus" class="admin-status" role="status" aria-live="polite">Comprobando acceso…</div>
@@ -10,6 +10,33 @@
 <div class="admin-stats"><div><span>Publicaciones</span><strong id="statWorks">—</strong></div><div><span>Perfiles</span><strong id="statProfiles">—</strong></div><div><span>Comentarios</span><strong id="statComments">—</strong></div><div><span>Reportes</span><strong id="statReports">—</strong></div></div>
 <div class="admin-tabs" role="tablist" aria-label="Secciones de administración"><button data-panel="works" class="is-active" type="button">Obras</button><button data-panel="profiles" type="button">Usuarios</button><button data-panel="comments" type="button">Comentarios</button><button data-panel="reports" type="button">Reportes</button></div>
 <details><summary>Editar aviso de la página de inicio</summary><form id="adminNoticeForm"><label for="adminNotice">Aviso visible en inicio</label><textarea id="adminNotice" maxlength="280" rows="3" placeholder="Deja el texto vacío para ocultarlo"></textarea><button type="submit">Guardar aviso</button></form></details>
+<details>
+  <summary>Editar secciones</summary>
+  <form id="adminSectionForm">
+    <label for="adminSection">Sección</label>
+    <select id="adminSection">
+      <option value="tienda">Tienda</option>
+      <option value="musica">Música</option>
+      <option value="galeria">Galería</option>
+      <option value="guitar-lab">Guitar Lab</option>
+      <option value="juegos">Juegos</option>
+    </select>
+    <p>Deja un campo vacío para usar el texto original.</p>
+    <div id="adminSectionFields"></div>
+    <button type="submit">Guardar textos</button>
+  </form>
+</details>
+<details>
+  <summary>Editar precios de la tienda</summary>
+  <form id="adminPriceForm">
+    <label for="adminProduct">Producto</label>
+    <select id="adminProduct"></select>
+    <label for="adminPrice">Precio de referencia en MXN</label>
+    <input id="adminPrice" type="number" min="1" max="9999999" step="1" required>
+    <button type="submit">Guardar precio</button>
+    <button type="button" id="adminResetPrice">Restaurar precio original</button>
+  </form>
+</details>
 <div class="admin-toolbar"><label for="adminSearch">Buscar en la sección</label><input id="adminSearch" type="search" placeholder="Título, alias o contenido…"><button type="button" id="adminRefresh">Actualizar datos</button></div>
 <div id="adminRecords" class="admin-records" aria-live="polite"></div><div class="admin-pages"><button type="button" id="adminPrev" disabled>Anterior</button><span id="adminPageInfo">Página 1</span><button type="button" id="adminNext">Siguiente</button></div>
 </section></main>

@@ -383,6 +383,16 @@
       if (error && !/auth session missing/i.test(error.message)) console.warn('Auth:', friendlyError(error));
       state.user = data?.user || null;
       updateAccountUI();
+      const section = $('[data-section]')?.dataset.section;
+      if (section) {
+        const { data: copy } = await state.db.from('contenido_secciones').select('*').eq('seccion', section).maybeSingle();
+        if (copy) {
+          for (const field of document.querySelectorAll('[data-section-field]')) {
+            const value = copy[field.dataset.sectionField];
+            if (value) field.textContent = value;
+          }
+        }
+      }
       const siteNotice = $('#siteNotice');
       if (siteNotice) {
         const { data: notice } = await state.db.from('aviso_sitio').select('texto').maybeSingle();
@@ -414,8 +424,6 @@
     const hasUser = Boolean(state.user);
     $('#authBtn').hidden = hasUser;
     $('#accountArea').hidden = !hasUser;
-    $('#myWorksLink').hidden = !hasUser;
-    $('#savedWorksLink').hidden = !hasUser;
     if (hasUser) {
       const alias = getArtistName();
       $('.account-avatar').textContent = alias[0].toUpperCase();
@@ -861,17 +869,6 @@
     bind('#clearFiltersBtn', 'click', clearFilters);
     bind('#clearViewBtn', 'click', clearFilters);
     bind('#loadMoreBtn', 'click', () => loadWorks());
-    bind('#myWorksLink', 'click', (event) => {
-      if (!$('#galleryGrid')) return;
-      event.preventDefault();
-      state.galleryView=''; state.mineOnly=true; selectFilter('todas'); $('#searchInput').value=''; renderGallery();
-      history.replaceState(null,'','explorar.html?mine=1');
-    });
-    bind('#savedWorksLink', 'click', event => {
-      if (!$('#galleryGrid')) return;
-      event.preventDefault(); loadSavedWorks();
-      history.replaceState(null,'','explorar.html?saved=1');
-    });
     window.addEventListener('nocturna:portfolio', e => loadPortfolio(e.detail));
     bind('#authBtn', 'click', openAuth);
     bind('#accountBtn', 'click', logout);
