@@ -1,5 +1,19 @@
 # NOCTURNA — Galería, Radio Nocturna y comunidad creativa
 
+## Despliegue actual y activación de seguridad (noviembre 2026)
+
+- URL informada del Worker: **https://nocturna.243107079.workers.dev**
+- Panel visual: **https://nocturna.243107079.workers.dev/admin.html**
+- Repositorio: **https://github.com/deidgh/NOCTURNA** (rama `main`).
+- La URL pertenece a **Cloudflare Workers**, no a Cloudflare Pages. Un cambio en GitHub **no confirma** por sí solo que el Worker haya publicado ese cambio. Verifica el despliegue en el panel de Workers.
+- Supabase Auth → **URL Configuration**: configurar **Site URL** como `https://nocturna.243107079.workers.dev/` y añadir la ruta autorizada exacta `https://nocturna.243107079.workers.dev/index.html` y las otras páginas de autenticación usadas. Se pueden agregar patrones más amplios solo cuando se necesiten.
+- Supabase Auth → **Email**: confirmar que **Confirm email** esté habilitado. Probar con un correo nuevo. Para destinatarios externos, considerar SMTP propio antes de lanzar públicamente.
+- Cloudflare **Turnstile**: crear widget para hostname `nocturna.243107079.workers.dev`, configurar la **site key pública** en `config.js` y poner únicamente el **secret** en Supabase Auth → Bot and Abuse Protection. Probar registro, inicio de sesión y restablecimiento.
+- No copiar el secreto de Turnstile, contraseñas ni claves privilegiadas en GitHub. El CAPTCHA no estará operativo solo por mostrar el widget; es indispensable activar validación desde Supabase.
+- PWA: revisar `/manifest.webmanifest`, `/sw.js` y los íconos PNG en el despliegue real. Puede instalarse desde navegador compatible; no produce instaladores nativos APK/EXE.
+- Estado de verificación: el código y base de datos se pueden auditar por separado, pero **el sitio publicado y el flujo completo de correos/CAPTCHA requieren pruebas en el dominio real**.
+
+
 Web estática con **HTML, CSS y JavaScript**, lista para usar en **Cloudflare Pages**. Usa **Supabase** para registro/inicio de sesión, perfiles, fotografías, música subida por usuarios, favoritos y me gusta.
 
 ## Qué incluye
