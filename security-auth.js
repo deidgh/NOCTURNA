@@ -6,7 +6,7 @@ const $=x=>document.querySelector(x);
 function render(){if(!required||!window.turnstile)return;
 for(const formName of ['login','signup','reset']){
  const target=$('#captcha-'+formName);if(!target||state[formName]?.id!==undefined)continue;
- const id=window.turnstile.render(target,{sitekey,theme:'dark',appearance:'interaction-only',callback:token=>{state[formName]={id,token}},'expired-callback':()=>{if(state[formName])state[formName].token=''},'error-callback':()=>{if(state[formName])state[formName].token=''}});
+ const id=window.turnstile.render(target,{sitekey,theme:'dark',appearance:formName==='reset'?'interaction-only':'always',callback:token=>{state[formName]={id,token}},'expired-callback':()=>{if(state[formName])state[formName].token=''},'error-callback':()=>{if(state[formName])state[formName].token=''}});
  state[formName]={id,token:''};
 }}
 function mount(){if(!required)return;
