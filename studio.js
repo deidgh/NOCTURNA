@@ -216,6 +216,9 @@
   function openMenu(){const btn=$('#menuBtn'),nav=$('#mainNav');if(!btn||!nav)return;btn.addEventListener('click',()=>{const open=btn.getAttribute('aria-expanded')!=='true';btn.setAttribute('aria-expanded',String(open));btn.setAttribute('aria-label',open?'Cerrar menú':'Abrir menú');nav.classList.toggle('nav-open',open)});nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{btn.setAttribute('aria-expanded','false');btn.setAttribute('aria-label','Abrir menú');nav.classList.remove('nav-open')}));}
   function initPlayer(){
     const audio=$('#demoAudio');audio.volume=.7;
+    const editor=window.NOCTURNA_EDITOR;
+    const defaults=audioTracks.map(track=>({...track}));
+    const trackRows=[];
     const format=s=>`${Math.floor((s||0)/60)}:${String(Math.floor((s||0)%60)).padStart(2,'0')}`;
     audioTracks.forEach((t,i)=>{
       const row=document.createElement('button');row.className='track-row';row.type='button';
@@ -223,6 +226,15 @@
       const label=document.createElement('span');const name=document.createElement('strong');name.textContent=t.name;const artist=document.createElement('small');artist.textContent=t.artist+' · '+t.style;label.append(name,artist);
       const duration=document.createElement('span');duration.className='track-duration';duration.textContent=t.length;
       const play=document.createElement('span');play.setAttribute('aria-hidden','true');play.textContent='▶';row.append(n,label,duration,play);
+      const prefix='track:'+(i+1)+':';
+      editor?.field(name,prefix+'titulo');
+      editor?.field(artist,prefix+'autor','text',t.artist);
+      const audioEdit=document.createElement('span');
+      audioEdit.className='inline-edit-only track-edit-audio';
+      audioEdit.textContent='Cambiar audio';
+      editor?.field(audioEdit,prefix+'audio','audio');
+      row.append(audioEdit);
+      trackRows.push({name,artist,duration});
       row.addEventListener('click',()=>{selectSong(i);audio.play().catch(()=>notify('No se pudo iniciar el audio. Revisa tu conexión.'))});$('#trackList').append(row);
     });
     function refresh(){
@@ -239,6 +251,28 @@
     audio.addEventListener('timeupdate',()=>{if(audio.duration)$('#trackSeek').value=Math.round(100*audio.currentTime/audio.duration);msg($('#trackTime'),format(audio.currentTime));});
     $('#trackSeek').addEventListener('input',e=>{if(Number.isFinite(audio.duration)&&audio.duration>0)audio.currentTime=audio.duration*(+e.target.value/100)});
     $('#trackVolume').addEventListener('input',e=>audio.volume=+e.target.value);
+    function applyTrackEdits() {
+      const previous=audioTracks[currentTrack].file;
+      audioTracks.forEach((track,i)=>{
+        const original=defaults[i], key='track:'+(i+1)+':';
+        track.name=editor?.get(key+'titulo',original.name) ?? original.name;
+        track.artist=editor?.get(key+'autor',original.artist) ?? original.artist;
+        track.file=editor?.get(key+'audio',original.file) ?? original.file;
+        track.length=track.file===original.file ? original.length : '—';
+        track.license=track.file===original.file ? original.license : 'Publicada por NOCTURNA';
+        track.source=track.file===original.file ? original.source : '';
+        Object.assign(window.NOCTURNA_TRACKS[i],track);
+        trackRows[i].name.textContent=track.name;
+        trackRows[i].artist.textContent=track.artist+' · '+track.style;
+        trackRows[i].artist.dataset.editValue=track.artist;
+        trackRows[i].duration.textContent=track.length;
+      });
+      if (previous!==audioTracks[currentTrack].file) selectSong(currentTrack);
+      else refresh();
+    }
+    window.addEventListener('nocturna:edits', event => {
+      if (!event.detail.key || event.detail.key.startsWith('track:')) applyTrackEdits();
+    });
     selectSong(0);
   }
   function initTabs(){const tabs=$$('.tool-tab');tabs.forEach((tab,i)=>{tab.addEventListener('click',()=>activate(tab.dataset.tool));tab.addEventListener('keydown',e=>{if(e.key!=='ArrowRight'&&e.key!=='ArrowLeft')return;e.preventDefault();const next=(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;tabs[next].focus();activate(tabs[next].dataset.tool)})});function activate(id){tabs.forEach(t=>{const active=t.dataset.tool===id;t.classList.toggle('active',active);t.setAttribute('aria-selected',String(active));t.tabIndex=active?0:-1;$('#panel-'+t.dataset.tool).hidden=!active});if(id!=='tuner')stopTuner();if(id!=='metro'&&metroRunning)stopMetro();}}

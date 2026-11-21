@@ -2,12 +2,15 @@
  'use strict';
  const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
  const products=window.NOCTURNA_PRODUCTS||[];
+ const editor=window.NOCTURNA_EDITOR;
+ const originalProducts=new Map(products.map(product=>[product.id,{...product}]));
+ const prices=new Map();
  const key='nocturna-cart-v2'; const fmt=n=>new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN',maximumFractionDigits:0}).format(n);
  const safeLoad=()=>{try{const x=JSON.parse(localStorage.getItem(key)||'{}');return Object.fromEntries(Object.entries(x).filter(([id,q])=>products.some(p=>p.id===id)&&Number.isInteger(q)&&q>0&&q<=99));}catch{return {}}};
  let cart=safeLoad(),filter='todos',search='';
  const save=()=>{try{localStorage.setItem(key,JSON.stringify(cart))}catch{}};
  const el=(tag,cls,text)=>{const e=document.createElement(tag);e.className=cls||'';if(text!==undefined)e.textContent=text;return e;};
- function card(p){const wrap=el('article','product-card new-product-card');const visual=el('div','product-visual');const image=el('img');image.src=p.image;image.alt=`Fotografía del producto ${p.name}`;image.loading='lazy';image.decoding='async';image.addEventListener('error',()=>{
+ function card(p){const wrap=el('article','product-card new-product-card');const visual=el('div','product-visual');const image=el('img');image.src=p.image;editor?.field(image,'product:'+p.id+':imagen','image');image.alt=`Fotografía del producto ${p.name}`;image.loading='lazy';image.decoding='async';image.addEventListener('error',()=>{
    if(p.fallback){
     image.src=p.fallback;
     image.alt='Ilustración referencial de '+p.name+'; foto original disponible en la ficha del fabricante.';
@@ -17,8 +20,14 @@
     visual.append(el('p','product-image-placeholder',p.name+' · Ver imagen en el sitio de la marca o distribuidor.'));
    }
   },{once:true});visual.append(image);
- const body=el('div','product-copy');body.append(el('span','product-category',p.cat.toUpperCase()),el('h3','',p.name),el('p','product-desc',p.desc),el('strong','price-tag',fmt(p.price)));
- const actions=el('div','store-card-actions');const add=el('button','button button-primary','＋ Agregar');add.type='button';add.setAttribute('aria-label',`Añadir ${p.name} al carrito`);add.addEventListener('click',()=>{cart[p.id]=Math.min(99,(cart[p.id]||0)+1);save();drawCart();show(`${p.name} añadido a tu carrito.`);});const info=el('a','text-link-arrow','Conocer el modelo ↗');info.href=p.url;info.target='_blank';info.rel='noopener noreferrer';info.setAttribute('aria-label',`Ver detalles de ${p.name} en su fuente original`);actions.append(add,info);body.append(actions,el('small','product-credits',p.imageCredit));wrap.append(visual,body);return wrap;}
+ const body=el('div','product-copy');
+ const prefix='product:'+p.id+':';
+ const name=el('h3','',p.name), description=el('p','product-desc',p.desc), price=el('strong','price-tag',fmt(p.price));
+ editor?.field(name,prefix+'nombre');
+ editor?.field(description,prefix+'descripcion');
+ editor?.field(price,prefix+'precio','number',String(p.price));
+ body.append(el('span','product-category',p.cat.toUpperCase()),name,description,price);
+ const actions=el('div','store-card-actions');const add=el('button','button button-primary','＋ Agregar');add.type='button';add.setAttribute('aria-label',`Añadir ${p.name} al carrito`);add.addEventListener('click',()=>{cart[p.id]=Math.min(99,(cart[p.id]||0)+1);save();drawCart();show(`${p.name} añadido a tu carrito.`);});const info=el('a','text-link-arrow','Conocer el modelo ↗');info.href=p.url;editor?.field(info,prefix+'enlace','link',p.url);info.target='_blank';info.rel='noopener noreferrer';info.setAttribute('aria-label',`Ver detalles de ${p.name} en su fuente original`);actions.append(add,info);body.append(actions,el('small','product-credits',p.imageCredit));wrap.append(visual,body);return wrap;}
  function drawProducts(){const wrap=$('#catalogGrid');if(!wrap)return;wrap.replaceChildren();let visible=products.filter(p=>(filter==='todos'||p.cat===filter)&&(`${p.name} ${p.desc}`.toLowerCase().includes(search)));if(!visible.length)wrap.append(el('p','micro-note','No encontramos productos con esa búsqueda.'));visible.forEach(p=>wrap.append(card(p)));}
  function adjust(id,delta){const n=(cart[id]||0)+delta;if(n<=0)delete cart[id];else cart[id]=Math.min(99,n);save();drawCart();}
  function drawCart(){const wrap=$('#cartLines');if(!wrap)return;wrap.replaceChildren();let total=0,count=0;const selected=products.filter(p=>cart[p.id]);if(!selected.length)wrap.append(el('div','cart-empty','Tu carrito está vacío. Explora el catálogo y añade algo que te guste.'));
@@ -31,15 +40,30 @@
  $('#cartClearNew')?.addEventListener('click',()=>{cart={};save();drawCart()});
  $('#cartExport')?.addEventListener('click',async()=>{const lines=products.filter(p=>cart[p.id]).map(p=>`${cart[p.id]} × ${p.name} — ${fmt(p.price*cart[p.id])}`);if(!lines.length){show('Primero añade productos.');return}const sum=products.reduce((s,p)=>s+(cart[p.id]||0)*p.price,0);try{await navigator.clipboard.writeText('NOCTURNA · Mi carrito\n'+lines.join('\n')+'\nTotal estimado: '+fmt(sum)+'\nPrecios de referencia, sin compra realizada.');show('Lista copiada.')}catch{show('No se pudo copiar. Prueba HTTPS o localhost.')}});
  drawProducts();drawCart();
+ function applyProductEdits(){
+   for (const product of products) {
+     const original=originalProducts.get(product.id);
+     const key='product:'+product.id+':';
+     product.name=editor?.get(key+'nombre',original.name) ?? original.name;
+     product.desc=editor?.get(key+'descripcion',original.desc) ?? original.desc;
+     product.image=editor?.get(key+'imagen',original.image) ?? original.image;
+     const source=editor?.get(key+'enlace',original.url) ?? original.url;
+     try { product.url=new URL(source).protocol==='https:' ? source : original.url; }
+     catch { product.url=original.url; }
+     const fallback=prices.get(product.id) ?? original.price;
+     product.price=Number(editor?.get(key+'precio',fallback) ?? fallback);
+   }
+   drawProducts();
+   drawCart();
+ }
+ window.addEventListener('nocturna:edits', event => {
+   if (!event.detail.key || event.detail.key.startsWith('product:')) applyProductEdits();
+ });
  window.addEventListener('nocturna:connected', async () => {
    const { db } = window.NOCTURNA_BRIDGE.snapshot();
    const { data, error } = await db.from('precios_catalogo').select('producto,precio');
    if (error) return;
-   const prices = new Map(data.map(row => [row.producto, row.precio]));
-   for (const product of products) {
-     if (prices.has(product.id)) product.price = prices.get(product.id);
-   }
-   drawProducts();
-   drawCart();
+   for (const row of data) prices.set(row.producto,row.precio);
+   applyProductEdits();
  }, { once: true });
 })();

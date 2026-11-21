@@ -383,16 +383,21 @@
       if (error && !/auth session missing/i.test(error.message)) console.warn('Auth:', friendlyError(error));
       state.user = data?.user || null;
       updateAccountUI();
+      window.dispatchEvent(new CustomEvent('nocturna:user'));
+      let legacyCopy;
       const section = $('[data-section]')?.dataset.section;
       if (section) {
         const { data: copy } = await state.db.from('contenido_secciones').select('*').eq('seccion', section).maybeSingle();
         if (copy) {
+          legacyCopy = copy;
           for (const field of document.querySelectorAll('[data-section-field]')) {
             const value = copy[field.dataset.sectionField];
             if (value) field.textContent = value;
           }
         }
       }
+      window.dispatchEvent(new CustomEvent('nocturna:copy-ready', {detail:legacyCopy}));
+      await window.NOCTURNA_EDITOR?.ready;
       const siteNotice = $('#siteNotice');
       if (siteNotice) {
         const { data: notice } = await state.db.from('aviso_sitio').select('texto').maybeSingle();
@@ -463,6 +468,8 @@
     }
   }
   function getImageUrl(work) {
+    const replacement = window.NOCTURNA_EDITOR?.get('work:' + work.id + ':imagen');
+    if (replacement) return replacement;
     if (work.imagen_demo) return work.imagen_demo;
     if (!state.db || !work.imagen_path) return FALLBACKS[work.categoria] || FALLBACKS.fotografia;
     return state.db.storage.from('obras-imagenes').getPublicUrl(work.imagen_path).data.publicUrl;
@@ -501,18 +508,24 @@
       const thumb = createNode('span', 'art-thumb');
       const image = document.createElement('img');
       image.src = getImageUrl(work);
+      const edit = window.NOCTURNA_EDITOR;
+      const key = 'work:' + work.id + ':';
+      edit?.field(image, key + 'imagen', 'image');
       image.alt = work.texto_alternativo;
       image.loading = 'lazy';
       image.decoding = 'async';
       image.addEventListener('error', () => {
         image.remove();thumb.classList.add('art-thumb-unavailable');
         const unavailable=createNode('span','photo-fallback-text','Fotografía no disponible · '+work.nombre_autor);
+        edit?.field(unavailable, key + 'imagen', 'image');
         thumb.prepend(unavailable);
       }, { once: true });
       thumb.append(image, createNode('span', 'art-type', (work.tema || 'Fotografía').toUpperCase()));
       if (work.audio_path || work.audio_demo) thumb.append(createNode('span', 'art-audio-mark', '♫'));
       const meta = createNode('span', 'art-meta');
-      meta.append(createNode('span', 'art-name', work.titulo), createNode('span', 'art-arrow', '↗'));
+      const title = createNode('span', 'art-name', edit?.get(key + 'titulo', work.titulo) ?? work.titulo);
+      edit?.field(title, key + 'titulo');
+      meta.append(title, createNode('span', 'art-arrow', '↗'));
       button.append(thumb, meta, createNode('span', 'art-creator', `por ${work.nombre_autor}`));
       button.addEventListener('click', () => openDetail(work));
       article.append(button);
@@ -526,6 +539,9 @@
     $('#allCount').textContent = String(baseWorks.length).padStart(2, '0') + (state.hasMore ? '+' : '');
     $('#galleryStatus').textContent = `${visible.length} ${visible.length === 1 ? 'obra' : 'obras'} en esta colección${state.mineOnly ? ' · mis publicaciones' : ''}${state.galleryView ? ' · ' + state.galleryView : ''}`;
   }
+  window.addEventListener('nocturna:edits', event => {
+    if (event.detail.key?.startsWith('work:')) renderGallery();
+  });
   function selectFilter(category) {
     state.filter = category;
     $$('.filter-pill').forEach(btn => {
@@ -544,7 +560,7 @@
   }
   function openDetail(work) {
     state.selected = work;
-    $('#detailTitle').textContent = work.titulo;
+    $('#detailTitle').textContent = window.NOCTURNA_EDITOR?.get('work:' + work.id + ':titulo', work.titulo) ?? work.titulo;
     $('#detailCategory').textContent = LABELS[work.categoria] || 'Arte';
     $('#detailAuthor').textContent = `Obra de ${work.nombre_autor}`;
     $('#detailDescription').textContent = work.descripcion;

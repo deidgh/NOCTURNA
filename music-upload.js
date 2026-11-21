@@ -162,25 +162,34 @@
   }
   function renderSongs(db) {
     $list.replaceChildren();
+    const editor=window.NOCTURNA_EDITOR;
     if (!tracks.length) { $listStatus.textContent = 'Todavía no hay canciones publicadas. Comparte la primera.'; return; }
     $listStatus.textContent = `${tracks.length} ${tracks.length === 1 ? 'canción reciente' : 'canciones recientes'} de la comunidad.`;
     for (const work of tracks) {
       const card = node('article', 'community-track');
       card.id = `cancion-${work.id}`;
       card.dataset.workId = work.id;
+      const key='community:'+work.id+':';
       const cover = node('img');
       cover.src = db.storage.from('obras-imagenes').getPublicUrl(work.imagen_path).data.publicUrl;
+      cover.src = editor?.get(key+'imagen',cover.src) ?? cover.src;
+      editor?.field(cover,key+'imagen','image');
       cover.alt = work.texto_alternativo;
       cover.loading = 'lazy';
       cover.addEventListener('error', () => {cover.src = 'assets/sound-study.svg';}, {once: true});
-      const name = node('h3', '', work.titulo);
+      const name = node('h3', '', editor?.get(key+'titulo',work.titulo) ?? work.titulo);
+      editor?.field(name,key+'titulo');
       const artist = node('p', 'community-track-author', 'Por ' + work.nombre_autor);
-      const description = node('p', 'community-desc', work.descripcion);
+      const description = node('p','community-desc',editor?.get(key+'descripcion',work.descripcion) ?? work.descripcion);
+      editor?.field(description,key+'descripcion');
       const player = node('audio');
       player.controls = true;
       player.preload = 'none';
       player.setAttribute('aria-label', 'Escuchar ' + work.titulo);
       player.src = db.storage.from('obras-audio').getPublicUrl(work.audio_path).data.publicUrl;
+      player.src=editor?.get(key+'audio',player.src) ?? player.src;
+      const audioEdit=node('span','inline-edit-only','Cambiar audio');
+      editor?.field(audioEdit,key+'audio','audio');
       const buttons = node('div', 'music-social-actions');
       const feedback = node('span', 'sr-only');
       feedback.setAttribute('role', 'status');
@@ -194,7 +203,7 @@
       }
       const link = node('a', '', 'Ver publicación en Galería ↗');
       link.href = `explorar.html?categoria=musica&obra=${encodeURIComponent(work.id)}`;
-      card.append(cover, name, artist, description, player, buttons, feedback, link);
+      card.append(cover, name, artist, description, player, audioEdit, buttons, feedback, link);
       $list.append(card);
     }
     updateReactions();
@@ -231,6 +240,10 @@
   for (const name of ['nocturna:connected', 'nocturna:user', 'nocturna:demo']) {
     window.addEventListener(name, () => { refreshAccess(); loadSongs(); });
   }
+  window.addEventListener('nocturna:edits', event => {
+    const {db}=bridge();
+    if (db && (!event.detail.key || event.detail.key.startsWith('community:'))) renderSongs(db);
+  });
   refreshAccess();
   loadSongs();
 })();
