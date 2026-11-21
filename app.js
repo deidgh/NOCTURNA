@@ -375,7 +375,6 @@
             showDialog('authDialog');
           }
           if (event === 'SIGNED_IN' || event === 'SIGNED_OUT') {
-            if (event === 'SIGNED_IN' && !state.recovering && session?.user?.email_confirmed_at) closeDialog('authDialog');
             if (state.mineOnly) renderGallery();
           }
         }, 0);
@@ -384,6 +383,12 @@
       if (error && !/auth session missing/i.test(error.message)) console.warn('Auth:', friendlyError(error));
       state.user = data?.user || null;
       updateAccountUI();
+      const siteNotice = $('#siteNotice');
+      if (siteNotice) {
+        const { data: notice } = await state.db.from('aviso_sitio').select('texto').maybeSingle();
+        siteNotice.textContent = notice?.texto || '';
+        siteNotice.hidden = !siteNotice.textContent;
+      }
       await loadWorks(true);
       applyGalleryUrl();
     } catch (error) {
@@ -582,6 +587,18 @@
     button.disabled = active;
     button.textContent = active ? waitingText : original;
   }
+  async function checkCommunityAccess() {
+    const { data, error } = await state.db.rpc('mi_estado_cuenta');
+    if (error) throw error;
+    if (data === 'aprobada') return;
+    const messages = {
+      correo_pendiente: 'Confirma tu correo antes de iniciar sesión.',
+      pendiente: 'Tu correo está verificado. La cuenta está pendiente de aprobación por un administrador.',
+      suspendida: 'Tu cuenta está suspendida.'
+    };
+    await state.db.auth.signOut({ scope: 'local' });
+    throw Error(messages[data] || 'La cuenta no tiene acceso a NOCTURNA.');
+  }
   async function login(event) {
     event.preventDefault();
     const button = $('#loginSubmit');
@@ -592,6 +609,7 @@
       const token=window.NOCTURNA_CAPTCHA?.getToken('login');
       const { error } = await state.db.auth.signInWithPassword({ email: $('#loginEmail').value.trim(), password: $('#loginPassword').value, options:token?{captchaToken:token}:undefined });
       if (error) throw error;
+      await checkCommunityAccess();
       closeDialog('authDialog');
       $('#loginForm').reset();
       toast('Has iniciado sesión. ¡Bienvenido a tu estudio!');
@@ -618,7 +636,7 @@
         closeDialog('authDialog');
         toast('Confirma tu dirección de correo para proteger tu cuenta.');
       } else {
-        setMessage($('#authMessage'), 'Si el correo es válido, recibirás un mensaje para confirmar tu cuenta. Revisa también spam.');
+        setMessage($('#authMessage'), 'Si el correo es válido, recibirás un mensaje de confirmación. Después de confirmar tu correo, espera la aprobación de un administrador.');
       }
     } catch (error) { setMessage($('#authMessage'), friendlyError(error), true); }
     finally { window.NOCTURNA_CAPTCHA?.reset('signup'); busy(button, false, '', original); }

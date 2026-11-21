@@ -9,6 +9,7 @@
 <section id="adminConsole" hidden>
 <div class="admin-stats"><div><span>Publicaciones</span><strong id="statWorks">—</strong></div><div><span>Perfiles</span><strong id="statProfiles">—</strong></div><div><span>Comentarios</span><strong id="statComments">—</strong></div><div><span>Reportes</span><strong id="statReports">—</strong></div></div>
 <div class="admin-tabs" role="tablist" aria-label="Secciones de administración"><button data-panel="works" class="is-active" type="button">Obras</button><button data-panel="profiles" type="button">Usuarios</button><button data-panel="comments" type="button">Comentarios</button><button data-panel="reports" type="button">Reportes</button></div>
+<details><summary>Editar aviso de la página de inicio</summary><form id="adminNoticeForm"><label for="adminNotice">Aviso visible en inicio</label><textarea id="adminNotice" maxlength="280" rows="3" placeholder="Deja el texto vacío para ocultarlo"></textarea><button type="submit">Guardar aviso</button></form></details>
 <div class="admin-toolbar"><label for="adminSearch">Buscar en la sección</label><input id="adminSearch" type="search" placeholder="Título, alias o contenido…"><button type="button" id="adminRefresh">Actualizar datos</button></div>
 <div id="adminRecords" class="admin-records" aria-live="polite"></div><div class="admin-pages"><button type="button" id="adminPrev" disabled>Anterior</button><span id="adminPageInfo">Página 1</span><button type="button" id="adminNext">Siguiente</button></div>
 </section></main>
