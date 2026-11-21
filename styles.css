@@ -312,3 +312,87 @@ body.high-contrast .filter-pill.is-active { color: #000; }
 @media (prefers-reduced-motion: reduce) {
   *, *:before, *:after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+
+/* Tema claro de NOCTURNA. */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #faf7ff;
+  --bg-deep: #eee7f6;
+  --surface: #fff;
+  --surface-up: #f2eaf8;
+  --text: #22192c;
+  --muted: #50415d;
+  --muted-2: #62546c;
+  --accent: #6232a1;
+  --accent-soft: #542a8b;
+  --accent-ink: #211333;
+  --line: #d5c7e3;
+  --rev-ink: var(--text);
+  --rev-muted: var(--muted);
+  --rev-line: var(--line);
+  --rev-card: var(--surface);
+  --rev-violet: var(--accent);
+}
+html[data-theme="light"] body { color: var(--text); background: var(--bg); }
+html[data-theme="light"] :is(.site-header, .site-header .main-nav, .site-footer, .marquee,
+  .art-open, .setup-notice, .search-wrap, .empty-state, .end-cta, .dialog, .toast,
+  .portal-card, .feature-card, .info-card, .rev-action, .home-wide, .rev-hero,
+  .store-toolbar, .store-toolbar input, .new-product-card, .cart-totals, .cart-qty button,
+  .music-showcase, .track-row, .music-social-actions button, .music-upload-form, .community-track,
+  .lab-outer, .tool-tab, .tool-button, .tuner-interface, .metro-interface, .bpm-interface, .chord-interface,
+  .arcade-card, .game-stage, .game-interaction, .game-choice, .game-card, .arcade-score,
+  .profile-overview article, .visible-editor, .photo-tool, .guided-workflow, .shop-disclaimer,
+  .button-outline, .button-ghost, .filter-pill, .store-filter, .auth-tab, .dialog-x) {
+  background: var(--surface);
+  color: var(--text);
+  border-color: var(--line);
+}
+html[data-theme="light"] :is(.form-field input:not([type="file"]), .form-field textarea,
+  .form-field select, .visible-editor input, .visible-editor textarea, .tool-panel select,
+  .tool-panel input[type="number"]) { background: var(--surface); color: var(--text); border-color: var(--line); }
+html[data-theme="light"] :is(.filter-pill.is-active, .store-filter.active, .tool-tab.active,
+  .auth-tab.active, .track-row.is-current, .search-wrap input, .icon-button) {
+  background: var(--surface-up);
+  color: var(--accent);
+}
+html[data-theme="light"] :is(.eyebrow, .section-kicker, .serif-accent, .italic-light,
+  .rev-action span, .rev-action b, .art-type, .portal-icon) { color: var(--accent); }
+html[data-theme="light"] .art-type { background: var(--surface); }
+html[data-theme="light"] .end-cta:before { opacity: .18; }
+html[data-theme="light"] .theme-toggle { border-color: var(--line); }
+html[data-theme="light"] body.high-contrast {
+  --text: #100813;
+  --muted: #251632;
+  --line: #776387;
+  --surface: #fff;
+}
+.page-editor {
+  position: fixed;
+  top: auto;
+  right: 1rem;
+  bottom: 1rem;
+  left: auto;
+  z-index: 80;
+  margin: 0;
+  width: min(24rem, calc(100vw - 2rem));
+  max-height: min(80vh, 37rem);
+  overflow: auto;
+  padding: 1.15rem;
+  border: 1px solid var(--accent);
+  border-radius: 1rem;
+  color: var(--text);
+  background: var(--surface);
+  box-shadow: 0 14px 50px #170e2d59;
+}
+.page-editor h2 { font-size: 1.3rem; margin: 0 0 .8rem; }
+.page-editor label { display: grid; gap: .22rem; margin-top: .65rem; font-size: .89rem; }
+.page-editor :is(input, textarea) {
+  width: 100%; padding: .45rem .65rem; border: 1px solid var(--line);
+  border-radius: .5rem; background: var(--surface-up); color: var(--text);
+}
+.page-editor-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .55rem; }
+[data-editing-page] [data-section-field] { outline: 1px dashed var(--accent); outline-offset: 3px; }
+.edit-page-button { white-space: nowrap; }
+@media (max-width: 800px) {
+  .edit-page-button { position: fixed; right: .75rem; bottom: .75rem; z-index: 50; background: var(--surface); }
+}

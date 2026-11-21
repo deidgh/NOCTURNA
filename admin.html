@@ -8,6 +8,16 @@
 <section id="adminGate" hidden><h2>Acceso restringido</h2><p>Inicia sesión en la página principal con una cuenta autorizada y regresa aquí. Solo administradores verificados pueden acceder a los datos de gestión.</p><a class="admin-button" href="index.html">Ir a iniciar sesión</a></section>
 <section id="adminConsole" hidden>
 <div class="admin-stats"><div><span>Publicaciones</span><strong id="statWorks">—</strong></div><div><span>Perfiles</span><strong id="statProfiles">—</strong></div><div><span>Comentarios</span><strong id="statComments">—</strong></div><div><span>Reportes</span><strong id="statReports">—</strong></div></div>
+<section class="admin-visual" aria-labelledby="adminVisualTitle">
+  <h2 id="adminVisualTitle">Editar páginas</h2>
+  <div class="admin-page-grid">
+    <a href="explorar.html"><img src="assets/photo-study.svg" alt=""><strong>Galería</strong><span>Abrir editor ↗</span></a>
+    <a href="musica.html"><img src="assets/sound-study.svg" alt=""><strong>Música</strong><span>Abrir editor ↗</span></a>
+    <a href="tienda.html"><img src="assets/lens-study.svg" alt=""><strong>Tienda</strong><span>Abrir editor ↗</span></a>
+    <a href="laboratorio.html"><img src="assets/strings-study.svg" alt=""><strong>Guitar Lab</strong><span>Abrir editor ↗</span></a>
+    <a href="juegos.html"><img src="assets/wave-study.svg" alt=""><strong>Juegos</strong><span>Abrir editor ↗</span></a>
+  </div>
+</section>
 <div class="admin-tabs" role="tablist" aria-label="Secciones de administración"><button data-panel="works" class="is-active" type="button">Obras</button><button data-panel="profiles" type="button">Usuarios</button><button data-panel="comments" type="button">Comentarios</button><button data-panel="reports" type="button">Reportes</button></div>
 <details><summary>Editar aviso de la página de inicio</summary><form id="adminNoticeForm"><label for="adminNotice">Aviso visible en inicio</label><textarea id="adminNotice" maxlength="280" rows="3" placeholder="Deja el texto vacío para ocultarlo"></textarea><button type="submit">Guardar aviso</button></form></details>
 <details>

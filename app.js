@@ -114,7 +114,7 @@
         "nombre_autor": "Ravindradevi mint",
         "descripcion": "Fotografía documental publicada bajo dedicación CC0.",
         "texto_alternativo": "Escena de fotografía callejera",
-        "imagen_demo": "https://commons.wikimedia.org/wiki/Special:Redirect/file/A_street_photography.jpg?width=900",
+        "imagen_demo": "https://upload.wikimedia.org/wikipedia/commons/e/e2/A_street_photography.jpg",
         "licencia": "CC0 1.0",
         "source_url": "https://commons.wikimedia.org/wiki/File:A_street_photography.jpg"
     },
@@ -126,7 +126,7 @@
         "nombre_autor": "Wangming1992",
         "descripcion": "Composición de ciudad con perspectiva y texturas urbanas.",
         "texto_alternativo": "Escena exterior de ciudad y arquitectura",
-        "imagen_demo": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Street_photography.jpg?width=900",
+        "imagen_demo": "https://upload.wikimedia.org/wikipedia/commons/c/cd/Street_photography.jpg",
         "licencia": "CC BY-SA 3.0",
         "source_url": "https://commons.wikimedia.org/wiki/File:Street_photography.jpg"
     },
@@ -138,7 +138,7 @@
         "nombre_autor": "Diego Gelvis",
         "descripcion": "Fotografía industrial de Palermo, Sicilia.",
         "texto_alternativo": "Paisaje industrial fotografiado en Palermo",
-        "imagen_demo": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Street_Photography.jpg?width=900",
+        "imagen_demo": "https://upload.wikimedia.org/wikipedia/commons/b/b2/Street_Photography.jpg",
         "licencia": "CC BY-SA 4.0",
         "source_url": "https://commons.wikimedia.org/wiki/File:Street_Photography.jpg"
     },
@@ -150,7 +150,7 @@
         "nombre_autor": "Autor acreditado en Wikimedia Commons",
         "descripcion": "Una mirada nocturna a Eje Central y Ayuntamiento, Ciudad de México.",
         "texto_alternativo": "Avenida de la Ciudad de México iluminada de noche",
-        "imagen_demo": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Eje_Central_CDMX.jpg?width=900",
+        "imagen_demo": "https://upload.wikimedia.org/wikipedia/commons/b/b4/Eje_Central_CDMX.jpg",
         "licencia": "Consulta licencia en la fuente",
         "source_url": "https://commons.wikimedia.org/wiki/File:Eje_Central_CDMX.jpg"
     },
@@ -174,7 +174,7 @@
         "nombre_autor": "Autor acreditado en Wikimedia Commons",
         "descripcion": "Una calle retratada de noche desde una perspectiva documental.",
         "texto_alternativo": "Calle fotografiada durante la noche",
-        "imagen_demo": "https://commons.wikimedia.org/wiki/Special:Redirect/file/A_Street_at_Night.jpg?width=900",
+        "imagen_demo": "https://upload.wikimedia.org/wikipedia/commons/b/bc/A_Street_at_Night.jpg",
         "licencia": "CC BY-SA 4.0",
         "source_url": "https://commons.wikimedia.org/wiki/File:A_Street_at_Night.jpg"
     },
@@ -186,7 +186,7 @@
         "nombre_autor": "Autor acreditado en Wikimedia Commons",
         "descripcion": "Los ritmos y signos de la ciudad convertidos en imagen.",
         "texto_alternativo": "Vista de una calle nocturna",
-        "imagen_demo": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Street_at_night.jpg?width=900",
+        "imagen_demo": "https://upload.wikimedia.org/wikipedia/commons/6/68/Street_at_night.jpg",
         "licencia": "CC BY-SA 4.0",
         "source_url": "https://commons.wikimedia.org/wiki/File:Street_at_night.jpg"
     },
