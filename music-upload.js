@@ -56,7 +56,7 @@
     if (pending) return;
     const { db, user } = bridge();
     if (!db) { message('Primero debes conectar Supabase para publicar música.', true); return; }
-    if (!user) { message('Inicia sesión para publicar tu música.', true); $('#authBtn')?.click(); return; }
+    if (!user || !user.email_confirmed_at) { message('Inicia sesión y verifica tu correo para publicar música.', true); $('#authBtn')?.click(); return; }
     const title = $('#uploadTrackTitle').value.trim();
     const description = $('#uploadTrackDescription').value.trim();
     const alt = $('#uploadCoverAlt').value.trim();

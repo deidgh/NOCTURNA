@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="es-MX"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/><meta content="#100d15" name="theme-color"/><meta content="Afinador, metrónomo, detector BPM, acordes, quintas y secuenciador de batería." name="description"/><meta content="dark" name="color-scheme"/><title>Guitar Lab — NOCTURNA</title><link href="assets/favicon.svg" rel="icon" type="image/svg+xml"/><link href="styles.css" rel="stylesheet"/><link href="studio.css" rel="stylesheet"/><link href="pages.css" rel="stylesheet"/><script defer="" src="config.js"></script><script defer="" src="navigation.js"></script><script defer="" src="app.js"></script><script defer="" src="studio.js"></script><link href="revamp.css" rel="stylesheet"/><script defer="" src="creative.js"></script></head><body class="page-laboratorio"><a class="skip-link" href="#contenido">Saltar al contenido principal</a><div aria-hidden="true" class="top-glow"></div><header class="site-header">
+<html lang="es-MX"><head><link rel="manifest" href="manifest.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/><meta content="#100d15" name="theme-color"/><meta content="Afinador, metrónomo, detector BPM, acordes, quintas y secuenciador de batería." name="description"/><meta content="dark" name="color-scheme"/><title>Guitar Lab — NOCTURNA</title><link href="assets/favicon.svg" rel="icon" type="image/svg+xml"/><link href="styles.css" rel="stylesheet"/><link href="studio.css" rel="stylesheet"/><link href="pages.css" rel="stylesheet"/><script defer="" src="config.js"></script><script defer="" src="navigation.js"></script><script defer="" src="security-auth.js"></script><script defer="" src="app.js"></script><script defer="" src="studio.js"></script><link href="revamp.css" rel="stylesheet"/><script defer="" src="creative.js"></script></head><body class="page-laboratorio"><a class="skip-link" href="#contenido">Saltar al contenido principal</a><div aria-hidden="true" class="top-glow"></div><header class="site-header">
 <div class="shell header-inner">
 <a aria-current aria-label="NOCTURNA, ir al inicio" class="brand" href="index.html">
 <span aria-hidden="true" class="brand-mark"><span class="brand-orbit"></span></span>
@@ -63,20 +63,20 @@
 <form class="form-stack" id="loginForm">
 <div class="form-field"><label for="loginEmail">Correo electrónico</label><input autocomplete="email" id="loginEmail" maxlength="254" placeholder="tu@correo.com" required="" type="email"/></div>
 <div class="form-field"><label for="loginPassword">Contraseña</label><input autocomplete="current-password" id="loginPassword" placeholder="Tu contraseña" required="" type="password"/></div>
-<button class="button button-primary full" id="loginSubmit" type="submit">Entrar a mi estudio <span aria-hidden="true">↗</span></button>
+<div class="captcha-holder" id="captcha-login" aria-label="Verificación anti robots"></div><p class="captcha-note" id="captcha-login-hint">Protección contra bots cuando se active Turnstile.</p><button class="button button-primary full" id="loginSubmit" type="submit">Entrar a mi estudio <span aria-hidden="true">↗</span></button>
 <button class="text-button" id="forgotBtn" type="button">¿Olvidaste tu contraseña?</button>
 </form>
 <form class="form-stack" hidden="" id="signupForm">
 <div class="form-field"><label for="signupName">Nombre artístico o alias</label><input autocomplete="nickname" id="signupName" maxlength="32" minlength="2" placeholder="¿Cómo te conocen?" required="" type="text"/></div>
 <div class="form-field"><label for="signupEmail">Correo electrónico</label><input autocomplete="email" id="signupEmail" maxlength="254" placeholder="tu@correo.com" required="" type="email"/></div>
 <div class="form-field"><label for="signupPassword">Contraseña <span class="hint-inline">(mínimo 8 caracteres)</span></label><input autocomplete="new-password" id="signupPassword" maxlength="72" minlength="8" placeholder="Crea una contraseña" required="" type="password"/></div>
-<button class="button button-primary full" id="signupSubmit" type="submit">Crear mi cuenta <span aria-hidden="true">↗</span></button>
-<p class="form-note">Es posible que tengas que confirmar tu correo para activar la cuenta.</p>
+<div class="captcha-holder" id="captcha-signup" aria-label="Verificación anti robots"></div><p class="captcha-note" id="captcha-signup-hint">Protección contra bots cuando se active Turnstile.</p><button class="button button-primary full" id="signupSubmit" type="submit">Crear mi cuenta <span aria-hidden="true">↗</span></button>
+<p class="form-note">Te enviaremos un enlace para verificar tu correo. Debes confirmarlo antes de usar la cuenta.</p>
 </form>
 <form class="form-stack" hidden="" id="resetForm">
 <p class="form-note">Te enviaremos un enlace para crear una nueva contraseña.</p>
 <div class="form-field"><label for="resetEmail">Correo de tu cuenta</label><input autocomplete="email" id="resetEmail" required="" type="email"/></div>
-<button class="button button-primary full" id="resetSubmit" type="submit">Enviar enlace de recuperación</button>
+<div class="captcha-holder" id="captcha-reset" aria-label="Verificación anti robots"></div><p class="captcha-note" id="captcha-reset-hint">Protección contra bots cuando se active Turnstile.</p><button class="button button-primary full" id="resetSubmit" type="submit">Enviar enlace de recuperación</button>
 <button class="text-button" id="backLoginBtn" type="button">Volver a iniciar sesión</button>
 </form>
 <form class="form-stack" hidden="" id="newPasswordForm">

@@ -326,7 +326,8 @@
   function friendlyError(error) {
     const text = (error?.message || '').toLowerCase();
     if (text.includes('invalid login credentials')) return 'Correo o contraseña incorrectos.';
-    if (text.includes('email not confirmed')) return 'Confirma tu correo antes de iniciar sesión.';
+    if (text.includes('email not confirmed')) return 'Confirma tu correo antes de iniciar sesión. Busca el enlace de verificación en tu bandeja de entrada.';
+    if (text.includes('captcha')) return 'El CAPTCHA no se ha validado. Vuelve a completarlo.';
     if (text.includes('user already registered')) return 'Ya existe una cuenta con ese correo.';
     if (text.includes('rate limit') || text.includes('too many')) return 'Hay demasiados intentos. Inténtalo más tarde.';
     if (text.includes('fetch') || text.includes('network')) return 'No se pudo conectar. Comprueba tu conexión a internet y la configuración de Supabase.';
@@ -374,7 +375,7 @@
             showDialog('authDialog');
           }
           if (event === 'SIGNED_IN' || event === 'SIGNED_OUT') {
-            if (event === 'SIGNED_IN' && !state.recovering) closeDialog('authDialog');
+            if (event === 'SIGNED_IN' && !state.recovering && session?.user?.email_confirmed_at) closeDialog('authDialog');
             if (state.mineOnly) renderGallery();
           }
         }, 0);
@@ -573,7 +574,7 @@
   }
   function openPublish() {
     if (state.demo) { toast('Las publicaciones de la comunidad estarán disponibles próximamente.'); return; }
-    if (!state.user) { openAuth(); toast('Inicia sesión para compartir una obra.'); return; }
+    if (!state.user || !state.user.email_confirmed_at) { openAuth(); toast('Inicia sesión y verifica tu correo para publicar.'); return; }
     setMessage($('#publishMessage'), '');
     showDialog('publishDialog');
   }
@@ -588,13 +589,14 @@
     busy(button, true, 'Entrando...', original);
     setMessage($('#authMessage'), '');
     try {
-      const { error } = await state.db.auth.signInWithPassword({ email: $('#loginEmail').value.trim(), password: $('#loginPassword').value });
+      const token=window.NOCTURNA_CAPTCHA?.getToken('login');
+      const { error } = await state.db.auth.signInWithPassword({ email: $('#loginEmail').value.trim(), password: $('#loginPassword').value, options:token?{captchaToken:token}:undefined });
       if (error) throw error;
       closeDialog('authDialog');
       $('#loginForm').reset();
       toast('Has iniciado sesión. ¡Bienvenido a tu estudio!');
     } catch (error) { setMessage($('#authMessage'), friendlyError(error), true); }
-    finally { busy(button, false, '', original); }
+    finally { window.NOCTURNA_CAPTCHA?.reset('login'); busy(button, false, '', original); }
   }
   async function signup(event) {
     event.preventDefault();
@@ -605,20 +607,21 @@
     busy(button, true, 'Creando cuenta...', original);
     setMessage($('#authMessage'), '');
     try {
+      const token=window.NOCTURNA_CAPTCHA?.getToken('signup');
       const { data, error } = await state.db.auth.signUp({
         email: $('#signupEmail').value.trim(), password: $('#signupPassword').value,
-        options: { data: { display_name: alias }, emailRedirectTo: redirectUrl() }
+        options: { data: { display_name: alias }, emailRedirectTo: redirectUrl(), ...(token ? { captchaToken:token } : {}) }
       });
       if (error) throw error;
       $('#signupForm').reset();
       if (data.session) {
         closeDialog('authDialog');
-        toast('Tu cuenta está lista. Ya puedes publicar una obra.');
+        toast('Confirma tu dirección de correo para proteger tu cuenta.');
       } else {
         setMessage($('#authMessage'), 'Si el correo es válido, recibirás un mensaje para confirmar tu cuenta. Revisa también spam.');
       }
     } catch (error) { setMessage($('#authMessage'), friendlyError(error), true); }
-    finally { busy(button, false, '', original); }
+    finally { window.NOCTURNA_CAPTCHA?.reset('signup'); busy(button, false, '', original); }
   }
   async function resetPassword(event) {
     event.preventDefault();
@@ -626,11 +629,12 @@
     const original = button.textContent;
     busy(button, true, 'Enviando...', original);
     try {
-      const { error } = await state.db.auth.resetPasswordForEmail($('#resetEmail').value.trim(), { redirectTo: redirectUrl() });
+      const token=window.NOCTURNA_CAPTCHA?.getToken('reset');
+      const { error } = await state.db.auth.resetPasswordForEmail($('#resetEmail').value.trim(), { redirectTo: redirectUrl(), ...(token?{captchaToken:token}:{}) });
       if (error) throw error;
       setMessage($('#authMessage'), 'Si existe una cuenta con ese correo, recibirás un enlace para restablecer la contraseña.');
     } catch (error) { setMessage($('#authMessage'), friendlyError(error), true); }
-    finally { busy(button, false, '', original); }
+    finally { window.NOCTURNA_CAPTCHA?.reset('reset'); busy(button, false, '', original); }
   }
   async function updatePassword(event) {
     event.preventDefault();

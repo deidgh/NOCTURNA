@@ -6,5 +6,7 @@
 */
 window.NOCTURNA_CONFIG = {
   supabaseUrl: 'https://qopffkyqviwdsjfulxco.supabase.co',
-  supabaseAnonKey: 'sb_publishable_XQsVfuxSgTKUgZVR4JWjCw_CFx1T71a'
+  supabaseAnonKey: 'sb_publishable_XQsVfuxSgTKUgZVR4JWjCw_CFx1T71a',
+  // Site key pública de Turnstile; activar CAPTCHA en Supabase antes de completar.
+  turnstileSiteKey: ''
 };
